@@ -1,0 +1,16 @@
+{
+    "status": {
+        "title": "Test Script 1"
+    },
+    "users": {
+        "creamertweet": "r0knadr0k",
+        "someotheruser": "somepassword"
+    },
+    "events": [
+        { "user": "creamertweet", "time": "2009-12-09 17:05:00 UTC", "text": "test message 401" },
+        { "user": "NOSUCHcreamertweet", "time": "2009-12-09 17:11:00 UTC", "text": "test message 402" },
+        { "user": "someotheruser", "time": "2009-12-09 18:25:00 UTC", "text": "test message 403" }
+    ]
+}
+
+

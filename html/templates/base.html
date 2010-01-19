@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>creamertweet.com{% block title_extra %}{% end %}</title>
+        <link rel="SHORTCUT ICON" href="/static/favicon.ico"/>
+
+        <link rel="stylesheet" href="/static/styles/styles.css"/>
+        <script type="text/javascript" src="/static/scripts/jquery.js"></script>
+        <script type="text/javascript" src="/static/scripts/jquery.cookie.js"></script>
+        <script type="text/javascript" src="/static/scripts/json2.js"></script>
+        <script type="text/javascript" src="/static/scripts/prettyDate.js"></script>
+        <script type="text/javascript" src="/static/scripts/creamertweet.js"></script>
+
+        {% if current_user %}
+        <script type="text/javascript">
+            creamertweet.user = {
+                username: '{{ current_user['username'] }}',
+                profile_image_url: '{{ current_user['profile_image_url'] }}',
+                admin: '{{ current_user['is_admin'] }}'
+            }
+        </script>
+        {% end %}
+
+        {% block head_extra %}{% end %}
+    </head>
+    {% if current_user and current_user['is_admin'] %}
+    <body class="{% block body_class %}default{% end %} admin">
+    {% else %}
+    <body class="{% block body_class %}default{% end %}">
+    {% end %}
+        <div id="header">
+            <div id="topBar">
+                {% if current_user %}
+                <em>
+                    <img src="{{ current_user['profile_image_url'] }}" alt="" id="profile-image"/>
+                    <a href="http://twitter.com/{{ current_user['username'] }}">{{ current_user['username'] }}</a>
+                    {% if current_user['is_admin'] %}
+                    (admin)
+                    {% end %}
+                </em>
+                <ul>
+                    <li{% block nav_extra_1 %}{% end %}><a href="/">home</a></li>
+                    <li{% block nav_extra_2 %}{% end %}><a href="/activity">activity</a></li>
+                    <li{% block nav_extra_3 %}{% end %}><a href="/scriptslist">scripts</a></li>
+                    {% if False and current_user['is_admin'] %}
+                    <li{% block nav_extra_5 %}{% end %}><a href="/admin">admin</a></li>
+                    {% end %}
+                    <li{% block nav_extra_4 %}{% end %}><a class="logout" href="/auth/logout">Log out</a></li>
+                </ul>
+                {% else %}
+                <p id="auth">
+                    <a href="/auth/twitter"><img src="/static/images/sign-in-with-twitter.png" alt="sign in with twitter"/></a>
+                </p>
+                {% end %}
+            </div>
+
+            <h1 class="logo">
+                <a href="http://creamertweet.com/"><span class="w1">creamer</span><span class="w2">tweet</span><span class="w3">.com</span></a>
+                <span class="badge"><img src="/static/images/alpha.png" alt="alpha"/></span>
+            </h1>
+        </div>
+        <div id="content">
+            {% block content %}{% end %}
+        </div>
+        <div id="footer">
+            <p>
+                &copy; 2009 <a href="http://konradmarkus.com/" class="k" title="Konrad Markus"><img src="/static/images/k.png" alt="K"/>onrad Markus</a> | 
+                <a href="http://validator.w3.org/check?uri=referer" title="Valid XHTML">XHTML</a> |
+                <a href="http://jigsaw.w3.org/css-validator/check/referrer" title="Valid CSS">CSS</a> |
+                Design by <a href="http://milkmilklemonadearoundthecornerchocolatesmade.com/" title="Milk Milk, Lemonade, Aroud the Corner Chocolate's Made">Milk Milk, Lemonade</a> |
+                Built by <a href="http://morningwoodsoftware.com/" title="Morningwood Software">Morningwood Software</a> |
+                <a href="http://www.linode.com/?r=fd388bb5ef75c0e610250fee39e291a713e5a450" title="Hosting by Linode" class="linode"><img src="/static/images/linode.png" alt="Hosting by Linode"/></a>
+            </p>
+        </div>
+    </body>
+</html>

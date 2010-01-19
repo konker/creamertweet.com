@@ -1,0 +1,28 @@
+{% extends base.html %}
+{% block title_extra %}{% end %}
+{% block nav_extra_1 %} class="on"{% end %}
+
+{% block content %}
+    {% if current_user %}
+    <h2>home</h2>
+    <p class="intro">
+        Welcome to <em>creamertweet.com</em>, the quick and easy way to script twitter interactions.
+    </p>
+    <p>
+        You can view <a href="/activity">script activty</a> or 
+        <a href="/scriptslist">manage your scripts</a>
+    </p>
+    {% else %}
+    <h2>welcome</h2>
+    <p class="intro">
+        Welcome to <em>creamertweet.com</em>, the quick and easy way to script twitter interactions.
+    </p>
+    <p>
+        To get started <a href="/auth/twitter">sign in with twitter</a>
+    </p>
+    <p class="instructions">
+        You will be re-directed to twitter where you can authorize creamertweet.com.
+        The twitter account that you sign in with need not be used in the scripts.
+    </p>
+    {% end %}
+{% end %}

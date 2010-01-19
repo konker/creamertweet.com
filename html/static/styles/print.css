@@ -1,0 +1,30 @@
+.print-page-break { 
+	display: block;
+	page-break-before: always;
+	}
+
+#wrapper {
+	width: 100%;
+	margin-right: 15em;
+	}
+
+h1#masthead a.img {
+	text-indent: 0;
+	background: transparent;
+	}
+
+#cv h1 { margin: 0; }
+#cv h1#masthead { padding-bottom: 0; }
+#cv h2 a { display: none; }
+
+#cv #mainNav { display: none; }
+
+#cv #content {
+	padding-left: 0;
+	}
+#cv .other { display: none; }
+#cv .vcard { display: none; }
+#cv .sections { display: none; }
+#contact .instruction { display: none; }
+
+#footer { display: none; }

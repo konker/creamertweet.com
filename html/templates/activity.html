@@ -1,0 +1,79 @@
+{% extends base.html %}
+{% block title_extra %} - activity{% end %}
+{% block head_extra %}
+    <script type="text/javascript">
+        creamertweet.activity.last_seq = {{ last_seq }}
+        creamertweet.activity.scripts = {{ scripts_json }}
+    </script>
+{% end %}
+{% block body_class %}activity{% end %}
+{% block nav_extra_2 %} class="on"{% end %}
+
+{% block content %}
+    <h2>
+        activity
+        <span class="loading"><img src="/static/images/loading-bla_whi-small.gif" alt="loading..."/></span>
+    </h2>
+    <ul id="logList">
+       {% if len(activity['rows']) > 0 %}
+           {% for r in activity['rows'] %}
+            <li class="{{ r['doc']['status'] }} {{ r['doc']['action'] }}">
+                <div class="script"></div>
+                <div class="event">
+                    <span class="user"><a href="http://twitter.com/{{ r['doc']['event']['user'] }}">@{{ r['doc']['event']['user'] }}</a></span>
+                    <span class="text">{{ r['doc']['event']['text'] }}</span>
+                    <span class="time timestamp">{{ r['doc']['event']['time'] }}</span>
+                    <div class="meta">
+                        {% if r['doc']['event'].has_key('tries') %}
+                            <span class="tries">tries: {{ r['doc']['event']['tries'] }}</span>
+                        {% else %}
+                            <span class="tries">tries: 0</span>
+                        {% end %}
+                        {% if r['doc']['event'].has_key('sent') %}
+                        <span class="sent">sent: <span class="timestamp">{{ r['doc']['event']['sent'] }}</span></span>
+                        {% end %}
+                        {% if r['doc']['event'].has_key('ignored') %}
+                        <span class="ignored">ignored: <span class="timestamp">{{ r['doc']['event']['ignored'] }}</span></span>
+                        {% end %}
+                        {% if scripts.get(r['doc'].get('script_id')) %}
+                        <div class="ctuser"><a href="/script/{{ r['doc'].get('script_id') }}">{{ r['doc']['owner'] }}/{{ scripts.get(r['doc'].get('script_id')).get('title') }}</a></div>
+                        {% else %}
+                        <div class="ctuser">no script</div>
+                        {% end %}
+                    </div>
+                    {% if isinstance(r['doc']['message'], dict) %}
+                        <div class="message">
+                            {{ r['doc']['message'].get('error') }}
+                        </div>
+                    {% elif r['doc'].get('message') %}
+                        <div class="message">
+                            {{ r['doc']['message'] }}
+                        </div>
+                    {% end %}
+                </div>
+            </li>
+           {% end %}
+       {% else %}
+       <li class="EMPTY">Nothing has happened yet..</li>
+       {% end %}
+    </ul>
+
+    <div id="templates" style="display:none">
+        <li class="activity-item">
+            <div class="script"></div>
+            <div class="event">
+                <span class="user"><a href=""></a></span>
+                <span class="text"></span>
+                <span class="time timestamp"></span>
+                <div class="meta">
+                    <span class="tries"></span>
+                    <span class="sent"></span>
+                    <span class="ignored"></span>
+                    <div class="ctuser"><a href=""></a></div>
+                </div>
+                <div class="message">
+                </div>
+            </div>
+        </li>
+    </div>
+{% end %}

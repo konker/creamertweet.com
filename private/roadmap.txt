@@ -1,0 +1,150 @@
+ROADMAP
+--------
+
+- database
+    - couchdb?
+    O async re-write
+
+
+- error handling
+    - nginx level: 500, etc
+    - tornado level
+        - raise exceptions:
+            - then what? -> display error page?
+
+    - cron level?
+    - db level
+        - ultimately get fed back to tornado level
+
+    - proper validation/sanitization of input
+
+
+
+- move to async
+    O db calls
+     
+- long-polling support
+    O 'changes' cdb api?
+    - esp. for activity page
+----
+    - how does this actually work in the current arch?
+        - client -- lc --> tornado -- lc --> couchdb
+
+        - it only makes a difference if client opens connection and holds it until receives an update
+            - but that means that tornado also has to open a long connection to wait for db to send updates
+                - or tornado polls db in the same way that client normally would..
+                    - is this better? more efficient?
+                        - in which sense is it better?
+                            - x client requests => x db requests
+                            - x client requests => x + n db requests
+
+                        - assume server <-> db communication is more efficeint than client <-> server?
+                            - does that help?
+
+----
+    - really need to get a handle on this whole async/evented etc model of server
+        - and also as importantly how it interacts with resources, IO; file, db, net, etc
+            - e.g. can we assume that rendering a template is an atomic operation?
+                - no, but we would 
+
+
+                - not feasible?
+                    - although couchdb in theory supports many connections -> erlang and all that?
+                        - how does this fit in with the tornado plan of async web server model?
+
+
+
+- admin
+    - allow users to 'register'
+        - sign in with twitter
+        - if not user -> (? ask for email)
+            - create user
+
+- deleting scripts
+    - what about associated logs?
+        - archive flag?
+        - logs still show in activity
+        - link to script as usual
+        - script does not show in scripts list
+            - possible to see archived scripts via option/whatever
+
+    - hard delete?
+        - delete associated logs
+        - delete script
+
+- recurring events
+    - even some kind of scripting lang?
+
+- create twitter list from script users
+        
+- groups
+    - i.e. allow several users to collaborate on a script
+        group: {
+            name,
+            id
+        }
+
+        user: {
+            + group_ids: []
+        }
+
+        script: {
+            + group_id
+        }
+
+
+- quota system
+    - 'plan'
+        - max number of scripts
+            - script has max number of users?
+            - script has max number of events?
+        - max number of groups
+            - max number of group members
+
+----
+
+- STOP
+    - implement basic scripts functionality
+    - implement 'register'
+        - pos. captcha?
+    - leave it at that?
+
+    - pos. improve some of the scripting interface:
+        - clear script 'sent'
+        - bulk +/-time to script
+        - re-curring event
+        - url shortening?
+        - imgs?
+    
+
+- THEN
+    - look into twitter proxy
+        - provide twitter proxy with added features
+            - such as:
+                - defer post until later
+                - erm..
+
+        - build creamertweet on top of this proxy?
+
+
+------------------------------------------
+
+Immediate priorities:
+    - reset script?
+        - individual events checkbox?
+        - whole script reset -> pos. auto disable
+
+    - beta
+        - badge
+        - some explanation
+
+
+    - new user 'registration'
+        - ask for email?
+    
+    - double-check error messages
+        - change from alerts to in-page messages?
+        - error handlers on ajax calls
+
+    - delete script
+        - just make activity not fail if script is not there?

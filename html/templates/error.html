@@ -1,0 +1,15 @@
+{% extends base.html %}
+{% block title_extra %} - error{% end %}
+
+{% block content %}
+    <h2>Whoops</h2>
+    <p class="intro">
+        Something has gone wrong.
+    </p>
+    {% if message %}
+    <p class="message">{{ message }}</p>
+    {% end %}
+    <p>
+        Someone is trying to fix it, hope you try again.
+    </p>
+{% end %}

@@ -1,0 +1,75 @@
+{% extends base.html %}
+{% block title_extra %} - admin{% end %}
+{% block body_class %}admin{% end %}
+{% block nav_extra_5 %} class="on"{% end %}
+
+{% block content %}
+    <h2>admin</h2>
+    {% if current_user['is_admin'] %}
+    <div id="adminUsers">
+        <h2>
+            users
+            <span class="loading"><img src="/static/images/loading-bla_yel-small.gif" alt="loading..."/></span>
+        </h2>
+        <div class="tools">
+            <ul>
+                <li class="add"><a href="/admin/users">+ add user</a></li>
+            </ul>
+            <div class="clr"><br/></div>
+        </div>
+        <form method="POST" action="/scripts" id="usersForm">
+            <ul class="items">
+            <!-- users rendered here -->
+            {% if len(users['rows']) > 0 %}
+                {% for r in users['rows'] %}
+                    <li class="row">
+                        <div class="tools">
+                            <ul>
+                                <li class="edit"><a href="/admin/user/{{ r['value']['_id'] }}">edit</a></li>
+                                <li class="delete"><a href="/admin/user/{{ r['value']['_id'] }}/{{ r['value']['_rev'] }}/delete">x delete</a></li>
+                            </ul>
+                        </div>
+                        <span class="user">{{ r['value']['username'] }}</span>
+                        <span class="status"> 
+                            <span class="admin">admin: {{ r['value']['admin'] }}</span>
+                            <span class="is-enabled">enabled: {{ r['value']['enabled'] }}</span>
+                        </span>
+                    </li>
+                {% end %}
+            {% else %}
+                <li class="empty">No users yet</li>
+            {% end %}
+                </ul>
+            <input type="submit" class="none"/>
+        </form>
+    </div>
+    <div id="templates" style="display:none">
+        <li class="editable-user-row row">
+            <div class="tools">
+                <ul>
+                    <li class="save"><a href="#">save</a></li>
+                    <li class="cancel"><a href="#">cancel</a></li>
+                </ul>
+            </div>
+            <span class="user"><input type="text" class="text" value=""/></span>
+            <span class="meta"> 
+                <span class="admin"><input type="checkbox" name="admin" value="true"/> admin</span>
+                <span class="status"><input type="checkbox" name="enabled" value="true"/> enabled</span>
+            </span>
+        </li>
+        <li class="user-row row">
+            <div class="tools">
+                <ul>
+                    <li class="edit"><a href="#">edit</a></li>
+                    <li class="delete"><a href="#">x delete</a></li>
+                </ul>
+            </div>
+            <span class="user"></span>
+            <span class="status"> 
+                <span class="admin"></span>
+                <span class="is-enabled"></span>
+            </span>
+        </li>
+    </div>
+    {% end %}
+{% end %}

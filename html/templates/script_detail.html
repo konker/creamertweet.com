@@ -1,0 +1,209 @@
+{% extends base.html %}
+{% block title_extra %} - script detail{% end %}
+{% block body_class %}script-detail{% end %}
+{% block nav_extra_3 %} class="on"{% end %}
+{% block head_extra %}
+    <script type="text/javascript">
+        var _data = {{ script_json }}
+    </script>
+{% end %}
+
+{% block content %}
+    {% if current_user %}
+    <!--
+    <div class="back"><a href="/scripts">^ scripts</a></div>
+    -->
+    <h2 id="mainTitle">
+        <div class="title">
+            {% if script['enabled'] %}
+                <span class="enabled status">enabled</span>
+            {% else %}
+                <span class="disabled status">disabled</span>
+            {% end %}
+            <span class="text">{{ script['title'] }}</span>
+            <div class="tools">
+                <ul>
+                    <li class="loading"><img src="/static/images/loading-bla_whi-small.gif" alt="loading..."/></li>
+                    <li class="edit"><a href="/script/{{ script['_id'] }}">edit</a></li>
+                    <li class="delete"><a href="/script/{{ script['_id'] }}/{{ script['_rev'] }}/delete">x delete</a></li>
+                </ul>
+            </div>
+        </div>
+    </h2>
+    <div class="scriptDetail" id="{{ script['_id'] }}">
+        <div id="scriptMeta">
+            <!--
+            <div class="tools">
+                <ul>
+                    <li><a href="/script/{{ script['_id'] }}">reset</a></li>
+                </ul>
+            </div>
+            -->
+            <dl>
+                <dt class="owner">owner:</dt>
+                <dd class="owner"></dd>
+                <dt class="started">started:</dt>
+                <dd class="started timestamp"></dd>
+                <dt class="touched">last touched:</dt>
+                <dd class="touched timestamp"></dd>
+            </dl>
+        </div>
+        <div id="scriptUsers">
+            <h2>
+                users
+                <span class="loading"><img src="/static/images/loading-bla_yel-small.gif" alt="loading..."/></span>
+            </h2>
+            <div class="error">
+            </div>
+            <div class="tools">
+                <ul>
+                    <li class="add"><a href="/script/{{ script['_id'] }}">+ add user</a></li>
+                </ul>
+                <div class="clr"><br/></div>
+            </div>
+            <form method="POST" action="/script/{{ script['_id'] }}" id="usersForm">
+                <ul class="items">
+                <!-- users rendered here -->
+                </ul>
+                <input type="submit" class="none"/>
+            </form>
+        </div>
+        <div id="scriptEvents">
+            <h2>
+                events
+                <span class="loading"><img src="/static/images/loading-bla_gre-small.gif" alt="loading..."/></span>
+            </h2>
+            <div class="tools">
+                <ul>
+                    <li class="add"><a href="/script/{{ script['_id'] }}">+ add event</a></li>
+                </ul>
+                <div class="clr"><br/></div>
+            </div>
+            <form method="POST" action="/script/{{ script['_id'] }}" id="eventsForm">
+                <ul class="items">
+                <!-- events rendered here -->
+                </ul>
+                <input type="submit" class="none"/>
+            </form>
+        </div>
+    </div>
+    <div id="templates" style="display:none">
+        <!-- script title -->
+        <div class="normal-title">
+            <span class="status"></span>
+            <span class="text"></span>
+            <div class="tools">
+                <ul>
+                    <li class="loading"><img src="/static/images/loading-bla_whi-small.gif" alt="loading..."/></li>
+                    <li class="edit"><a href="/script/{{ script['_id'] }}">edit</a></li>
+                    <li class="delete"><a href="/script/{{ script['_id'] }}/{{ script['_rev'] }}/delete">x delete</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- editable script title -->
+        <div class="editable-title">
+            <form method="POST" action="/script/{{ script['_id'] }}" id="titleForm">
+            <select name="enabled">
+                <option value="true">Enabled</option>
+                <option value="flase">Disabled</option>
+            </select>
+            <input type="text" class="text" name="title" value=""/>
+            <div class="tools">
+                <ul>
+                    <li class="loading"><img src="/static/images/loading-bla_whi-small.gif" alt="loading..."/></li>
+                    <li class="save"><a href="/script/{{ script['_id'] }}">save</a></li>
+                    <li class="cancel"><a href="/script/{{ script['_id'] }}">cancel</a></li>
+                </ul>
+            </div>
+            </form>
+        </div>
+
+        <!-- ul tag is really just for valididty -->
+        <ul>
+        <!-- user row template -->
+        <li class="user-row row">
+            <div class="tools">
+                <ul>
+                    <li class="edit"><a href="/script/{{ script['_id'] }}">edit</a></li>
+                    <li class="delete"><a href="/script/{{ script['_id'] }}">x delete</a></li>
+                </ul>
+            </div>
+            <span class="username"><a href="http://twitter.com/"></a></span>
+            <span class="password"></span>
+        </li>
+        
+        <!-- editable user row template -->
+        <li class="editable-user-row row">
+            <div class="tools">
+                <ul>
+                    <li class="save"><a href="/script/{{ script['_id'] }}">save</a></li>
+                    <li class="cancel"><a href="/script/{{ script['_id'] }}">cancel</a></li>
+                </ul>
+            </div>
+            <span class="username">@<input type="text" name="username" class="text" value=""/></span>
+            <span class="password"><input type="text" name="password" class="text" value=""/></span>
+        </li>
+
+        <!-- event row template -->
+        <li class="event-row row">
+            <div class="tools">
+                <ul>
+                    <li class="edit"><a href="/scripts/{{ script['_id'] }}">edit</a></li>
+                    <li class="delete"><a href="/scripts/{{ script['_id'] }}">x delete</a></li>
+                </ul>
+            </div>
+            <div class="item">
+                <span class="user"><a href=""></a></span>
+                <span class="text"></span>
+                <span class="time">
+                    <img src="/static/images/calendar-icon.png" alt=""/>
+                    <span class="day"></span>/<span class="month"></span>/<span class="year"></span>
+                    <img src="/static/images/clock-icon.png" alt=""/>
+                    <span class="hour"></span>:<span class="min"></span>
+                </span>
+                <div class="meta">
+                    <span class="tries"></span>
+                    <span class="sent"></span>
+                    <span class="ignored"></span>
+                </div>
+            </div>
+        </li>
+
+        <!-- editable event row template -->
+        <li class="editable-event-row row">
+            <div class="tools">
+                <ul>
+                    <li class="save"><a href="/script/{{ script['_id'] }}">save</a></li>
+                    <li class="cancel"><a href="/script/{{ script['_id'] }}">cancel</a></li>
+                </ul>
+            </div>
+            <div class="item">
+                <span class="user">
+                    <select name="user"></select>
+                </span>
+                <span class="text"><textarea name="text" class="tweet" rows="3"></textarea></span>
+                <span class="time">
+                    <img src="/static/images/calendar-icon.png" alt=""/>
+                    <select name="day" class="day">
+                        <option>01</option><option>02</option><option>03</option><option>04</option><option>05</option><option>06</option><option>07</option><option>08</option><option>09</option><option>10</option><option>11</option><option>12</option><option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option><option>19</option><option>20</option><option>21</option><option>22</option><option>23</option><option>24</option><option>25</option><option>26</option><option>27</option><option>28</option><option>29</option><option>30</option><option>31</option>
+                    </select> /
+                    <select name="month" class="month">
+                        <option value="0">Jan</option><option value="1">Feb</option><option value="2">Mar</option><option value="3">Apr</option><option value="4">May</option><option value="5">Jun</option><option value="6">Jul</option><option value="7">Aug</option><option value="8">Sep</option><option value="9">Oct</option><option value="10">Nov</option><option value="11">Dec</option>
+                    </select> /
+                    <select name="year" class="year"></select>
+                    <img src="/static/images/clock-icon.png" alt=""/>
+                    <select name="hour" class="hour">
+                        <option>00</option><option>01</option><option>02</option><option>03</option><option>04</option><option>05</option><option>06</option><option>07</option><option>08</option><option>09</option><option>10</option><option>11</option><option>12</option><option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option><option>19</option><option>20</option><option>21</option><option>22</option><option>23</option>
+                    </select> :
+                    <select name="min" class="min">
+                        <option>00</option><option>01</option><option>02</option><option>03</option><option>04</option><option>05</option><option>06</option><option>07</option><option>08</option><option>09</option><option>10</option><option>11</option><option>12</option><option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option><option>19</option><option>20</option><option>21</option><option>22</option><option>23</option><option>24</option><option>25</option><option>26</option><option>27</option><option>28</option><option>29</option><option>30</option><option>31</option><option>32</option><option>33</option><option>34</option><option>35</option><option>36</option><option>37</option><option>38</option><option>39</option><option>40</option><option>41</option><option>42</option><option>43</option><option>44</option><option>45</option><option>46</option><option>47</option><option>48</option><option>49</option><option>50</option><option>51</option><option>52</option><option>53</option><option>54</option><option>55</option><option>56</option><option>57</option><option>58</option>
+                    </select>
+                </span>
+            </div>
+        </li>
+        </ul>
+    </div>
+    {% end %}
+{% end %}
+

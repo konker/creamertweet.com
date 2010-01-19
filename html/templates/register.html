@@ -1,0 +1,26 @@
+{% extends base.html %}
+{% block title_extra %} - register{% end %}
+{% block nav_extra_1 %} class="on"{% end %}
+
+{% block content %}
+    <h2>Register</h2>
+    {% if error %}
+    <div class="error">{{ error }}</div>
+    {% end %}
+    <p>
+        Please enter your email addresss below to continue.
+    </p>
+    <form id="registerForm" action="/auth/register" method="post">
+        <p>
+            <label for="email">Email</label>
+            <input type="text" class="text" name="email" id="email" value="{{ email }}"/>
+        </p>
+        <p class="accept">
+            <input type="checkbox" name="accept" value="on" id="accept" size="30" {% if accept %} checked="checked"{% end %}/>
+            <label for="accept">I accept the <a href="terms.html">terms and conditions</a></label>
+        </p>
+        <p>
+            <input type="submit" value="register"/>
+        </p>
+    </form>
+{% end %}

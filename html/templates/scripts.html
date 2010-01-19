@@ -1,0 +1,41 @@
+{% extends base.html %}
+{% block title_extra %} - scripts{% end %}
+{% block body_class %}scripts{% end %}
+{% block nav_extra_3 %} class="on"{% end %}
+
+{% block content %}
+    {% if current_user %}
+    <h2 id="mainTitle">scripts</h2>
+    <ul id="scriptList">
+       {% if len(scripts['rows']) > 0 %}
+           {% for r in scripts['rows'] %}
+             <li id="{{ r['id']}}" class="{{ 'enabled' if r['value']['enabled'] else 'disabled' }}">
+                <a href="/script/{{ r['id'] }}">{{ r['value']['title'] }}</a>
+             </li>
+            {% end %}
+       {% else %}
+       <li class="EMPTY">No scripts yet..</li>
+       {% end %}
+    </ul>
+    <form id="newScriptForm" method="post" action="/scriptslist">
+        <h2>create blank script</h2>
+        {% if error2 %}
+        <div class="error">{{ error2 }}</div>
+        {% end %}
+        <label for="title">title</label>
+        <input type="text" class="text" name="title" id="title"/>
+        <input type="submit" value="create"/>
+    </form>
+    <!--
+    <form id="importScriptForm">
+        <h2>import from xml</h2>
+        {% if error3 %}
+        <div class="error">{{ error3 }}</div>
+        {% end %}
+        <input type="file" class="text"/>
+        <input type="submit" value="import"/>
+    </form>
+    -->
+    {% end %}
+{% end %}
+
