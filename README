@@ -1,0 +1,12 @@
+creamertweet.com
+--------------------
+
+This site aim to make it possible to script/schedule twitter activity.
+
+Once you have logged in you can set up scripts in which you schedule tweets to be posted at a given time.
+
+A cron task runs periodically and sends out the sceduled tweets.
+
+The site is based on the Tornado web server and framework: http://www.tornadoweb.org/
+The site is backed by the CouchDB document-oriented database: http://couchdb.apache.org/
+
